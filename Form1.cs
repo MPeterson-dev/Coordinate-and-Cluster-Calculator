@@ -20,6 +20,7 @@ namespace Coordinate_and_Cluster_Calculator
         public Form1()
         {
             InitializeComponent();
+            Shown += displayWelcomeMessage;
             setGraphPreferences();
 
             // Set up initial DataGridView columns
@@ -27,6 +28,20 @@ namespace Coordinate_and_Cluster_Calculator
             dataGridView1.Columns[0].HeaderText = "Grid Code";
             dataGridView1.Columns[1].HeaderText = "Quantity";
             dataGridView1.Columns[1].DefaultCellStyle.Format = "N0";
+            
+        }
+
+        private void displayWelcomeMessage(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Welcome to the Coordinate and Cluster Calculator.\n\n" +
+                "This application was created after I was promoted to lead a team using Advanced Methane Leak Detection (AMLD) technology and Discover software, which had not previously been used in our office.\n\n" +
+                "Because there was no established strategy for surveying with the new technology, I developed this program to analyze grid coordinates and gas-line footage.\n\n" +
+                "This program helped target, identify, and export mapped out clusters of high footage areas to an Excel sheet. \n\n" +
+                "The application imports Excel data (Grid code and its paired footage), allows the user to set how close grids must be to be grouped into the same cluster, separates isolated grids, plots work areas, and exports color-coded Excel maps for assignment to the technicians.",
+                "Coordinate and Cluster Calculator",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
 
         }
 
@@ -251,6 +266,7 @@ namespace Coordinate_and_Cluster_Calculator
             else
                 return XLColor.BrightTurquoise;
         }
+        
         public void buttonExport_Click(object sender, EventArgs e)
         {
             // Exports filtered data and visual map to an Excel file.
