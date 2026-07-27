@@ -7,8 +7,6 @@ using ScottPlot;
 using Color = ScottPlot.Color;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-
-
 namespace Coordinate_and_Cluster_Calculator
 {
     public partial class Form1 : Form
@@ -28,7 +26,7 @@ namespace Coordinate_and_Cluster_Calculator
             dataGridView1.Columns[0].HeaderText = "Grid Code";
             dataGridView1.Columns[1].HeaderText = "Quantity";
             dataGridView1.Columns[1].DefaultCellStyle.Format = "N0";
-            
+
         }
 
         private void displayWelcomeMessage(object sender, EventArgs e)
@@ -180,7 +178,7 @@ namespace Coordinate_and_Cluster_Calculator
             // Creates Excel sheets for each quadrant, arranged visually by coordinates.
             var clusterOnly = clusters.SelectMany(c => c).ToList();
             var quadrantGroups = Quadrants.GroupByQuadrant(clusterOnly);
-            
+
 
             foreach (var kvp in quadrantGroups)
             {
@@ -189,20 +187,20 @@ namespace Coordinate_and_Cluster_Calculator
 
                 if (entries.Any())
                 {
-                int maxRow = entries.Max(e => int.Parse(e.GridCode.Split('-')[0].TrimStart('N', 'S')));
-                int maxCol = entries.Max(e => int.Parse(e.GridCode.Split('-')[1].TrimStart('W')));
+                    int maxRow = entries.Max(e => int.Parse(e.GridCode.Split('-')[0].TrimStart('N', 'S')));
+                    int maxCol = entries.Max(e => int.Parse(e.GridCode.Split('-')[1].TrimStart('W')));
 
 
-                foreach (var entry in entries)
-                {
-                    var (r, c) = Quadrants.GetExcelPosition(entry, maxRow, maxCol);
-                    var cell = sheet.Cell(r, c);
-                    cell.Value = $"{entry.GridCode}{Environment.NewLine}{entry.Quantity}";
-                    cell.Style.Alignment.WrapText = true;
-                    cell.Style.Fill.BackgroundColor = GetColorForQuantity(entry.Quantity);
-                    cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                    cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                }
+                    foreach (var entry in entries)
+                    {
+                        var (r, c) = Quadrants.GetExcelPosition(entry, maxRow, maxCol);
+                        var cell = sheet.Cell(r, c);
+                        cell.Value = $"{entry.GridCode}{Environment.NewLine}{entry.Quantity}";
+                        cell.Style.Alignment.WrapText = true;
+                        cell.Style.Fill.BackgroundColor = GetColorForQuantity(entry.Quantity);
+                        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                    }
                 }
 
                 sheet.Columns().Width = 10;
@@ -263,10 +261,10 @@ namespace Coordinate_and_Cluster_Calculator
                 return XLColor.Lavender;
             else if (quantity <= 35000)
                 return XLColor.MistyRose;
-            else
+            else // <35001
                 return XLColor.BrightTurquoise;
         }
-        
+
         public void buttonExport_Click(object sender, EventArgs e)
         {
             // Exports filtered data and visual map to an Excel file.
@@ -427,5 +425,84 @@ namespace Coordinate_and_Cluster_Calculator
             return visibleEntries;
         }
 
+        private void buttonAddSampleData_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            allGrids.Clear();
+
+            // tuple instead of dataGridView1.Rows.Add(...)
+            var sampleData = new (string GridCode, double Quantity)[]
+            {
+                    // Northwest: large, high-footage cluster
+                    ("N20-W20", 42000),
+                    ("N20-W21", 38000),
+                    ("N20-W22", 34000),
+                    ("N21-W20", 29000),
+                    ("N21-W21", 26000),
+                    ("N21-W22", 23000),
+                    ("N22-W21", 19000),
+                    ("N22-W22", 14000),
+            
+                    // Northwest: nearby smaller cluster
+                    // A larger neighbor range may connect this to the first cluster.
+                    ("N24-W23", 11000),
+                    ("N24-W24", 16000),
+                    ("N25-W24", 21000),
+            
+                    // Northeast: horizontal cluster
+                    ("N12-15", 7000),
+                    ("N12-16", 12000),
+                    ("N12-17", 18000),
+                    ("N12-18", 24000),
+                    ("N12-19", 31000),
+            
+                    // Northeast: isolated grids
+                    ("N5-30", 4500),
+                    ("N8-35", 36000),
+            
+                    // Southwest: irregular cluster
+                    ("S10-W12", 9000),
+                    ("S10-W13", 15000),
+                    ("S11-W12", 20000),
+                    ("S11-W13", 25000),
+                    ("S11-W14", 30000),
+                    ("S12-W14", 35000),
+            
+                    // Southwest: solo grid
+                    ("S20-W30", 6000),
+            
+                    // Southeast: vertical cluster
+                    ("S5-10", 5000),
+                    ("S6-10", 10000),
+                    ("S7-10", 15000),
+                    ("S8-10", 20000),
+                    ("S9-10", 25000),
+            
+                    // Southeast: separate high-footage cluster
+                    ("S15-20", 28000),
+                    ("S15-21", 33000),
+                    ("S16-20", 39000),
+                    ("S16-21", 46000),
+            
+                    // Southeast: isolated low-footage grid
+                    ("S25-35", 2500)
+            };
+
+            foreach (var entry in sampleData)
+            {
+                dataGridView1.Rows.Add(entry.GridCode, entry.Quantity);
+            }
+
+            MessageBox.Show(
+                "Sample data has been added.\n\n" +
+                "Try calculating the data with different neighbor-range values to see " +
+                "how nearby groups merge or remain separate.\n\n" +
+                "The sample includes all four quadrants, multiple cluster shapes, " +
+                "isolated grids, and footage values across every export color range.",
+                "Sample Data Added",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿// Fully restored Form1.Designer.cs with regular WinForms buttons and all UI components
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using ScottPlot.WinForms;
@@ -40,6 +39,7 @@ namespace Coordinate_and_Cluster_Calculator
             formsPlot1 = new FormsPlot();
             buttonPlotGrids = new Button();
             panel1 = new Panel();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericNeighborRange).BeginInit();
             panel1.SuspendLayout();
@@ -252,11 +252,25 @@ namespace Coordinate_and_Cluster_Calculator
             panel1.Size = new Size(397, 181);
             panel1.TabIndex = 18;
             // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.MenuHighlight;
+            button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = SystemColors.ButtonHighlight;
+            button1.Location = new Point(476, 55);
+            button1.Name = "button1";
+            button1.Size = new Size(192, 31);
+            button1.TabIndex = 19;
+            button1.Text = "Add Sample Data";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += buttonAddSampleData_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1421, 632);
+            Controls.Add(button1);
             Controls.Add(buttonPlotGrids);
             Controls.Add(formsPlot1);
             Controls.Add(label2);
@@ -301,5 +315,6 @@ namespace Coordinate_and_Cluster_Calculator
         private FormsPlot formsPlot1;
         private Button buttonPlotGrids;
         private Panel panel1;
+        private Button button1;
     }
 }

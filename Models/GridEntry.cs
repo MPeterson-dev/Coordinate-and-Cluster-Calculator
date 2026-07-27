@@ -21,7 +21,7 @@ namespace Coordinate_and_Cluster_Calculator.Models
 
         /*
          Quadrant Ranges:
-            Northwest (N#-W#)       Northeast (N#-#)
+            Northwest (N#-W#)       Northeast (#-#)
             
             -1, 1                   1, 1            
             
