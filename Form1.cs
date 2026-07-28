@@ -379,16 +379,21 @@ namespace Coordinate_and_Cluster_Calculator
 
         private void buttonPlotGrids_Click(object sender, EventArgs e)
         {
-            // Triggers plotting of grid entries from the view.
-            if (allGrids.Count == 0)
+            // Retrieves only the grid entries currently visible in the DataGridView.
+            var visibleEntries = GetVisibleEntriesFromGrid();
+
+            if (visibleEntries.Count == 0)
             {
-                MessageBox.Show("No grid data to plot. Please paste data first.");
+                MessageBox.Show(
+                    "No grid data is available to plot. Please paste or add sample data first.",
+                    "Plot Grids",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 return;
             }
 
-            var visibleEntries = GetVisibleEntriesFromGrid();
             PlotGrids(visibleEntries);
-
         }
 
         private List<GridEntry> GetVisibleEntriesFromGrid()
