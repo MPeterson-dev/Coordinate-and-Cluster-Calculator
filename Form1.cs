@@ -239,6 +239,19 @@ namespace Coordinate_and_Cluster_Calculator
                 cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
             }
 
+            // Step 4: Add black axis cells to separate the four quadrants
+            int axisColumn = 0 - minX + 1;
+            int axisRow = maxY + 1;
+
+            int totalColumns = maxX - minX + 1;
+            int totalRows = maxY - minY + 1;
+
+            sheet.Range(1, axisColumn, totalRows, axisColumn)
+                .Style.Fill.BackgroundColor = XLColor.Black;
+
+            sheet.Range(axisRow, 1, axisRow, totalColumns)
+                .Style.Fill.BackgroundColor = XLColor.Black;
+
             sheet.Columns().Width = 10;
             sheet.Rows().Height = 30;
 
