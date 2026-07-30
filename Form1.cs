@@ -534,8 +534,8 @@ namespace Coordinate_and_Cluster_Calculator
 
             //Add 2000 additional randomized grids
             while (usedGridCodes.Count < sampleData.Length + 2000){
-                int x = random.Next(-100, 101);
-                int y = random.Next(-100, 101);
+                int x = random.Next(-50, 50);
+                int y = random.Next(-50, 50);
 
                 if (x == 0 || y == 0)
                     continue;

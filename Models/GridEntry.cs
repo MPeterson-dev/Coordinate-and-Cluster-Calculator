@@ -52,13 +52,21 @@ namespace Coordinate_and_Cluster_Calculator.Models
         //Changes Parsed grids (-1, 1), (-1, -1) etc back to N#-W#, S#-W#, etc.
         public static string ToGridCode(int x, int y)
         {
+            // Converts supplied X and Y coordinates into the grid-code format.
             int row = Math.Abs(y);
             int col = Math.Abs(x);
 
-            string ns = y > 0 ? "N" : "S";
-            string ew = x < 0 ? $"W{col}" : $"{col}";
-
-            return $"{ns}{row}-{ew}";
+            //NW quad
+            if (x < 0 && y > 0)
+                return $"N{row}-W{col}";
+            //NE quad
+            if (x > 0 && y > 0)
+                return $"{row}-{col}";
+            //SW quad
+            if (x < 0 && y < 0)
+                return $"S{row}-W{col}";
+            //SE quad
+            return $"S{row}-{col}";
         }
 
         //Method overloading for adding random sample data
