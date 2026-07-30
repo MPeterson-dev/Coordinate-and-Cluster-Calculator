@@ -379,6 +379,18 @@ namespace Coordinate_and_Cluster_Calculator
 
         private void buttonPlotGrids_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(
+
+                "ScottPlot was initially added to provide a visual representation " +
+                "of grid locations and footage. While useful for quickly viewing " +
+                "spatial relationships, the plot was less practical for creating " +
+                "technician work assignments. Excel export was later added to provide " +
+                "structured, color-coded maps that could be reviewed, organized, " +
+                "and distributed more effectively.",
+                "Plot Information",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
             // Retrieves only the grid entries currently visible in the DataGridView.
             var visibleEntries = GetVisibleEntriesFromGrid();
 
