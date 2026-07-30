@@ -505,14 +505,41 @@ namespace Coordinate_and_Cluster_Calculator
                     ("S25-35", 2500)
             };
 
+            //HashSet to avoid duplicate entries
+            HashSet<string> usedGridCodes = new HashSet<string>();
+
+            //Add Sample data to grid
             foreach (var entry in sampleData)
             {
                 dataGridView1.Rows.Add(entry.GridCode, entry.Quantity);
+                //Add sample data to HashSet 
+                usedGridCodes.Add(entry.GridCode);
+            }
+
+            //Create random data for more samples
+            Random random = new Random();
+
+            //Add 2000 additional randomized grids
+            while (usedGridCodes.Count < sampleData.Length + 2000){
+                int x = random.Next(-100, 101);
+                int y = random.Next(-100, 101);
+
+                if (x == 0 || y == 0)
+                    continue;
+
+                string gridCode = GridEntry.ToGridCode(x, y);
+
+                if (!usedGridCodes.Add(gridCode))
+                    continue;
+
+                double quantity = random.Next(1000, 50001);
+
+                dataGridView1.Rows.Add(gridCode, quantity);
             }
 
             MessageBox.Show(
                 "Sample data has been added.\n\n" +
-                "Try calculating the data with different neighbor-range values to see " +
+                "Try filtering the data with different neighbor-range values to see " +
                 "how nearby groups merge or remain separate.\n\n" +
                 "The sample includes all four quadrants, multiple cluster shapes, " +
                 "isolated grids, and footage values across every export color range.",

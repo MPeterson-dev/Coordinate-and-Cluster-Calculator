@@ -50,20 +50,25 @@ namespace Coordinate_and_Cluster_Calculator.Models
         }
 
         //Changes Parsed grids (-1, 1), (-1, -1) etc back to N#-W#, S#-W#, etc.
-        public string ToGridCode()
+        public static string ToGridCode(int x, int y)
         {
-            int row = Math.Abs(Y);
-            int col = Math.Abs(X);
+            int row = Math.Abs(y);
+            int col = Math.Abs(x);
 
-            string ns = Y > 0 ? "N" : "S";
-            string ew = X < 0 ? $"W{col}" : $"{col}";
+            string ns = y > 0 ? "N" : "S";
+            string ew = x < 0 ? $"W{col}" : $"{col}";
 
             return $"{ns}{row}-{ew}";
         }
 
-        /// <summary>
-        /// Calculates the Manhattan distance to another grid.
-        /// </summary>
+        //Method overloading for adding random sample data
+        public string ToGridCode()
+        {
+            //Converts this GridEntrys' X and Y coordinates back into a grid code
+            return ToGridCode(X, Y);
+        }
+
+        //Calculates the Manhattan distance to another grid.
         public double DistanceTo(GridEntry other)
         {
             return Math.Abs(this.X - other.X) + Math.Abs(this.Y - other.Y);
